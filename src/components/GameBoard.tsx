@@ -12,12 +12,12 @@ import { useDebounce } from '@src/helpers/debounce';
 const GameBoard: React.FC = () => {
   const [molePosition, setMolePosition] = useState<number | null>(null);
   const [score, setScore] = useState(0);
+  const [timer, setTimer] = useState(0);
   const [numOfClicks, setNumOfClicks] = useState(0);
   const [isGameRunning, setIsGameRunning] = useState(false);
-  const [timer, setTimer] = useState(0);
 
-  const gameEngineRef = useRef<GameEngine>(new GameEngine());
   const moleHideTimer = useRef<number | null>(null);
+  const gameEngineRef = useRef<GameEngine>(new GameEngine());
 
   const updateScore = useCallback((points: number) => {
     gameEngineRef.current.incrementScore(points);
@@ -26,12 +26,15 @@ const GameBoard: React.FC = () => {
 
   const debouncedClick = useDebounce(numOfClicks, 1000);
 
+  //   randomize mole position
   const randomizeMole = () => {
     if (gameEngineRef.current.isGameOver()) return;
 
+    // show the mole
     const randomPosition = Math.floor(Math.random() * 9);
     setMolePosition(randomPosition);
 
+    // hide the mole
     moleHideTimer.current = window.setTimeout(() => {
       setMolePosition(null);
       randomizeMole();
@@ -47,6 +50,7 @@ const GameBoard: React.FC = () => {
     randomizeMole();
   }, []);
 
+  //   to end the game entirely
   const stopGame = useCallback(() => {
     setIsGameRunning(false);
     clearTimeout(moleHideTimer.current!);
@@ -55,6 +59,7 @@ const GameBoard: React.FC = () => {
 
   useEffect(() => {
     if (isGameRunning) {
+      // run the timer
       const interval = setInterval(() => setTimer((prev) => prev + 1), 1000);
       return () => clearInterval(interval);
     }
@@ -66,6 +71,7 @@ const GameBoard: React.FC = () => {
       gameEngineRef.current.incrementNumOfClicks();
       setNumOfClicks(gameEngineRef.current.getNumOfClicks());
 
+      //   stop mole from appearing
       clearTimeout(moleHideTimer.current!);
     } else {
       if (score >= 10) alert('Dude, you won already! Restart the game!');
@@ -75,9 +81,11 @@ const GameBoard: React.FC = () => {
   useEffect(() => {
     if (score < 10) {
       if (debouncedClick > 0) {
+        // start randomizing mole location again after user click
         randomizeMole();
       }
     } else {
+      // if score >= 10 then stop the game and show alert
       stopGame();
       alert(
         `Gotcha! You score at least 10 points in ${timer} seconds and ${numOfClicks} clicks!`
@@ -106,6 +114,8 @@ const GameBoard: React.FC = () => {
             key={idx}
             isVisible={molePosition === idx}
             onHit={
+              // molePosition === idx means the mole is visible in that hole.
+              // so if the mole is visile run handleMoleHit, either way just increment the clicks number
               molePosition === idx ? handleMoleHit : () => updateNumOfClicks()
             }
           />
