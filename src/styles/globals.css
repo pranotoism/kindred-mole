@@ -35,6 +35,29 @@ a {
   text-decoration: none;
 }
 
+.App {
+  text-align: center;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 300px;
+  margin: 0.7rem 0;
+}
+
+.btn-start {
+  padding: 5px 10px;
+}
+
+.mole {
+  font-size: 2rem;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
