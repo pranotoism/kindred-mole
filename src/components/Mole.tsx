@@ -28,14 +28,14 @@ const Mole: React.FC<MoleProps> = ({ isVisible, onHit }) => {
     >
       {isVisible &&
         (isGolden ? (
-          <Image
+          <img
             src={'/assets/mole-king.png'}
             alt='mole king'
             width={100}
             height={100}
           />
         ) : (
-          <Image
+          <img
             src={'/assets/mole.png'}
             alt='normal mole'
             width={100}
