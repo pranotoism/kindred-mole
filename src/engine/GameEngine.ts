@@ -2,7 +2,7 @@ export class GameEngine {
   private score: number;
   private numOfClicks: number;
   private gameOver: boolean;
-  private moleHideTimeRange: [number, number] = [20000, 40000];
+  private moleHideTimeRange: [number, number] = [200, 400];
 
   constructor() {
     this.score = 0;
