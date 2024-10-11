@@ -19,6 +19,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 With new features and enhancements!
 
+0. Now there are 9 holes!
+
 1. You need to score at least 10 points in order to win the game.
 
 2. I add a new variant Mole King.
